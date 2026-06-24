@@ -4,18 +4,45 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class RedBlue {
-    static int minRemove(String s) {
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(0, -1);
+/*
+SOAL:
+Diberikan kalung dengan batu merah (R) dan biru (B).
+Buat jumlah R = B dengan menghapus batu dari ujung kiri/kanan.
+Return jumlah batu minimum yang harus dihapus.
 
-        int bal = 0, max = 0;
+INSIGHT KUNCI:
+- Hapus dari ujung = sisa adalah subarray contiguous
+- Cari subarray terpanjang dengan R = B
+- Jawaban = panjang string - panjang subarray seimbang terpanjang
+- Gunakan prefix sum: R=+1, B=-1
+  Jika prefix[i] == prefix[j], maka subarray i+1..j seimbang
+
+CONTOH TEST CASE:
+
+Input:
+3
+BBRRBRBRBRBBR
+RBRB
+RRRBBB
+
+Output:
+# 1 1
+# 2 0
+# 3 0
+*/
+public class RedBlue {
+
+    static int minRemove(String s) {
+        Map<Integer, Integer> first = new HashMap<>();
+        first.put(0, -1);
+
+        int balance = 0, max = 0;
 
         for (int i = 0; i < s.length(); i++) {
-            bal += s.charAt(i) == 'R' ? 1 : -1;
+            balance += s.charAt(i) == 'R' ? 1 : -1;
 
-            if (!map.containsKey(bal)) map.put(bal, i);
-            else max = Math.max(max, i - map.get(bal));
+            if (!first.containsKey(balance)) first.put(balance, i);
+            else max = Math.max(max, i - first.get(balance));
         }
 
         return s.length() - max;
@@ -23,6 +50,13 @@ public class RedBlue {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println(minRemove(sc.next()));
+        int testCaseCount = sc.nextInt();
+
+        for (int tc = 1; tc <= testCaseCount; tc++) {
+            String s = sc.next();
+            System.out.println("# " + tc + " " + minRemove(s));
+        }
+
+        sc.close();
     }
 }
