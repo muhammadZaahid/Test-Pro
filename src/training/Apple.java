@@ -95,7 +95,7 @@ EXPECTED OUTPUT
 
 import java.util.*;
 
-public class AppleMulti {
+public class Apple {
     static final int INF = Integer.MAX_VALUE;
     static final int[] dRow = {0, 1, 0, -1}; // right, down, left, up
     static final int[] dCol = {1, 0, -1, 0};
